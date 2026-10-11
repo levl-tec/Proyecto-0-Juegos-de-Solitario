@@ -1,0 +1,21 @@
+# Visual Studio - archivos temporales
+.vs/
+*.user
+*.suo
+*.VC.db
+*.VC.opendb
+*.ipch
+
+# Archivos compilados
+**/Debug/
+**/Release/
+**/x64/
+**/x86/
+*.obj
+*.exe
+*.pdb
+*.ilk
+*.pch
+
+# Configuracion local de VS Code
+.vscode/
