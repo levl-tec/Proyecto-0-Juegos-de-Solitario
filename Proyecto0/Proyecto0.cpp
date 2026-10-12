@@ -1,20 +1,38 @@
-// Proyecto0.cpp : This file contains the 'main' function. Program execution begins and ends there.
-//
-
 #include <iostream>
+#include <windows.h>
+#include "PilaCartas.h"
+#include "Carta.h"
+#include "DLinkedList.h"
+#include "ArrayStack.h"
+#include "Estado.h"
 
 int main()
 {
-    std::cout << "Hello World!\n";
+    SetConsoleOutputCP(CP_UTF8);
+    SetConsoleCP(CP_UTF8);
+
+    Carta cartaPrueba = Carta('S', 1, 1);
+    Carta cartaPrueba2 = Carta('H', 13, 1);
+    Carta cartaPrueba3 = Carta('D', 2, 1);
+    Carta cartaPrueba4 = Carta('C', 12, 1);
+    std::cout << cartaPrueba;
+    std::cout << '\n' << '\n';
+    std::cout << (cartaPrueba.getValue() > cartaPrueba2.getValue()) << '\n';
+
+    std::cout << "Inicio pruebas pilasCartas, mazo, estado" << '\n';
+    List<Carta>* cartas = new DLinkedList<Carta>();
+    List<Carta>* cartas2 = new DLinkedList<Carta>();
+    cartas->append(cartaPrueba);
+    cartas->append(cartaPrueba2);
+    cartas2->append(cartaPrueba3);
+    cartas2->append(cartaPrueba4);
+    PilaCartas pilaCartas = PilaCartas(cartas);
+    PilaCartas pilaCartas2 = PilaCartas(cartas2);
+    List<PilaCartas>* pilasCartas = new ArrayList<PilaCartas>(7);
+    pilasCartas->append(pilaCartas);
+    pilasCartas->append(pilaCartas2);
+    Stack<Carta>* mazo = new ArrayStack<Carta>();
+    Estado* estadoActual = new Estado(mazo, pilasCartas);
+    estadoActual->print();
+    return 0;
 }
-
-// Run program: Ctrl + F5 or Debug > Start Without Debugging menu
-// Debug program: F5 or Debug > Start Debugging menu
-
-// Tips for Getting Started: 
-//   1. Use the Solution Explorer window to add/manage files
-//   2. Use the Team Explorer window to connect to source control
-//   3. Use the Output window to see build output and other messages
-//   4. Use the Error List window to view errors
-//   5. Go to Project > Add New Item to create new code files, or Project > Add Existing Item to add existing code files to the project
-//   6. In the future, to open this project again, go to File > Open > Project and select the .sln file
