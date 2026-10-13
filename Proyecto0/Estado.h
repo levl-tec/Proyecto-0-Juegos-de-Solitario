@@ -13,6 +13,9 @@ private:
     Stack<Carta>* mazo;
 
 public:
+
+    Estado() {}
+
     Estado(Stack<Carta>* mazo, List<PilaCartas>* cartasEnMesa) {
         this->cartasEnMesa = cartasEnMesa;
         this->mazo = mazo;
