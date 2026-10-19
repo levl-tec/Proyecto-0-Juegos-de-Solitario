@@ -13,10 +13,71 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Header Files\DataStructures">
+      <UniqueIdentifier>{92d9ae53-f601-4984-aece-45d03791cf8e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\GameEngine">
+      <UniqueIdentifier>{be66ceca-0f52-4dd1-a54f-76bc2a9ba615}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\UI">
+      <UniqueIdentifier>{a929e5b6-a46d-4db1-bc40-c9ae2b7c342e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Proyecto0.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Includes.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="LinkedStack.h">
+      <Filter>Header Files\DataStructures</Filter>
+    </ClInclude>
+    <ClInclude Include="List.h">
+      <Filter>Header Files\DataStructures</Filter>
+    </ClInclude>
+    <ClInclude Include="Node.h">
+      <Filter>Header Files\DataStructures</Filter>
+    </ClInclude>
+    <ClInclude Include="Stack.h">
+      <Filter>Header Files\DataStructures</Filter>
+    </ClInclude>
+    <ClInclude Include="DLinkedList.h">
+      <Filter>Header Files\DataStructures</Filter>
+    </ClInclude>
+    <ClInclude Include="DNode.h">
+      <Filter>Header Files\DataStructures</Filter>
+    </ClInclude>
+    <ClInclude Include="ArrayStack.h">
+      <Filter>Header Files\DataStructures</Filter>
+    </ClInclude>
+    <ClInclude Include="ArrayList.h">
+      <Filter>Header Files\DataStructures</Filter>
+    </ClInclude>
+    <ClInclude Include="Estado.h">
+      <Filter>Header Files\GameEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="Carta.h">
+      <Filter>Header Files\GameEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="CardValue.h">
+      <Filter>Header Files\GameEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="PilaCartas.h">
+      <Filter>Header Files\GameEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="Ronda.h">
+      <Filter>Header Files\GameEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderer.h">
+      <Filter>Header Files\UI</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="resources\ascii-reference.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
   </ItemGroup>
 </Project>
