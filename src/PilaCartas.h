@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 #include <iostream>
 #include "Carta.h"
@@ -6,7 +6,8 @@
 
 class PilaCartas {
 private:
- List<Carta>* cartas;
+List<Carta>* cartas;
+
 
 public:
     PilaCartas(List<Carta>* cartas) {
@@ -23,3 +24,4 @@ public:
         return os;
     }
 };
+

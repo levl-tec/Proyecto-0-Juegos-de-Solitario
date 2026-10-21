@@ -74,6 +74,9 @@
     <ClInclude Include="Renderer.h">
       <Filter>Header Files\UI</Filter>
     </ClInclude>
+    <ClInclude Include="InteractionEngine.h">
+      <Filter>Header Files\UI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="resources\ascii-reference.txt">

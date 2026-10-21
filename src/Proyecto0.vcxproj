@@ -150,6 +150,7 @@
     <ClInclude Include="DNode.h" />
     <ClInclude Include="Estado.h" />
     <ClInclude Include="Includes.h" />
+    <ClInclude Include="InteractionEngine.h" />
     <ClInclude Include="LinkedStack.h" />
     <ClInclude Include="List.h" />
     <ClInclude Include="Node.h" />
