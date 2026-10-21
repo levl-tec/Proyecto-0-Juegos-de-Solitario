@@ -16,11 +16,7 @@ public:
 
     Estado() {}
 
-    Estado(Stack<Carta>* mazo, List<PilaCartas>* cartasEnMesa) {
-        this->cartasEnMesa = cartasEnMesa;
-        this->mazo = mazo;
-    }
-
+    
     void print() {
         //Hay que hacer que este metodo imprima las columnas de pilas de una forma horizontal
         //Esto haciendolo simplemente imprimiendo cada columna no funciona, ya lo probe y no funciono :( por lo que 
