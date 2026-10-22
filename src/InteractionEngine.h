@@ -8,6 +8,7 @@
 
 using std::cout;
 using std::cin;
+using std::getline;
 using std::string;
 using std::exit;
 using std::to_string;
@@ -82,19 +83,31 @@ public:
 	}
 
 	//Pregunta si el usuario desea volver al menu principal. Devuelve true si si.
-	bool selectPlayAgain() {}
+	bool selectPlayAgain() {
+		cout << "\n1. Volver al menu principal\n";
+		cout << "2. Salir por completo\n";
+		return getRestrictedInteger("Elija una opcion", 1, 2) == 1;
+	}
 	
 	//Espera que usuario presione ENTER para continuar 
-	void pause() {}
+	void pause() {
+		cout << "Presione ENTER para continuar...";
+		string basura;
+		getline(cin, basura);
+	}
 
 	// Anuncia que va a empezar la siguiente ronda y espera ENTER
 	void nextRound(int ronda) {}
 
 	// Muestra un mensaje 
-	void showMessage(string message) {}
+	void showMessage(string message) {
+		cout << message << "\n";
+	}
 
 	// Muestra un mensaje de error
-	void showError(string message) {}
+	void showError(string message) {
+		cout << "Error: " << message << "\n";
+	}
 
 private:
 	InteractionEngine() {}
@@ -102,7 +115,30 @@ private:
 	// Pide un numero entre lowerBound y upperBound.
 	// Si algo sale mal lanza un runtime_error, lo atrapa,
 	// muestra el mensaje y vuelve a pedir el numero.
-	int getRestrictedInteger(string message, int lowerBound, int upperBound) {}
+	int getRestrictedInteger(string message, int lowerBound, int upperBound) {
+		while (true) {
+			try {
+				cout << message << " (" << lowerBound << "-" << upperBound << "): ";
+				int numero;
+				cin >> numero;
+				if (cin.fail()) {
+					cin.clear();
+					cin.ignore(1000, '\n');
+					throw runtime_error("Debe escribir un numero.");
+				}
+				cin.ignore(1000, '\n');
+
+				if (numero < lowerBound || numero > upperBound) {
+					throw runtime_error("El numero debe estar entre " + to_string(lowerBound) +
+						" y " + to_string(upperBound) + ".");
+				}
+				return numero;
+			}
+			catch (runtime_error e) {
+				showError(e.what());
+			}
+		}
+	}
 
 };
 #endif
