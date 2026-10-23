@@ -97,7 +97,10 @@ public:
 	}
 
 	// Anuncia que va a empezar la siguiente ronda y espera ENTER
-	void nextRound(int ronda) {}
+	void nextRound(int ronda) {
+		cout << "\n=== RONDA " << ronda << " ===\n";
+		pause();
+	}
 
 	// Muestra un mensaje 
 	void showMessage(string message) {
