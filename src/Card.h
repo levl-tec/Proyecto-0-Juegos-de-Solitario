@@ -3,7 +3,7 @@
 #include <iostream>
 #include <string>
 
-class Carta {
+class Card {
 private:
     char rank;
     bool faceUp;
@@ -11,19 +11,19 @@ private:
 
 public:
 
-    Carta(char palo, int value, bool vision) {
+    Card(char palo, int value, bool vision) {
         this->rank = rank;
         this->faceUp = faceUp;
         this-> value = value;
     }
 
-    Carta() {}
+    Card() {}
 
     int getValue() {
         return value;
     }
 
-    friend std::ostream& operator<<(std::ostream& os, Carta c) {
+    friend std::ostream& operator<<(std::ostream& os, Card c) {
         std::string simbolo;
 
         switch (c.rank) {

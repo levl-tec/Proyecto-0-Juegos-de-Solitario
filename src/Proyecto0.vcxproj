@@ -141,6 +141,27 @@
   <ItemGroup>
     <ClCompile Include="Proyecto0.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="ArrayList.h" />
+    <ClInclude Include="ArrayStack.h" />
+    <ClInclude Include="CardValue.h" />
+    <ClInclude Include="Carta.h" />
+    <ClInclude Include="DLinkedList.h" />
+    <ClInclude Include="DNode.h" />
+    <ClInclude Include="Estado.h" />
+    <ClInclude Include="Includes.h" />
+    <ClInclude Include="InteractionEngine.h" />
+    <ClInclude Include="LinkedStack.h" />
+    <ClInclude Include="List.h" />
+    <ClInclude Include="Node.h" />
+    <ClInclude Include="PilaCartas.h" />
+    <ClInclude Include="Renderer.h" />
+    <ClInclude Include="Ronda.h" />
+    <ClInclude Include="Stack.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="resources\ascii-reference.txt" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
