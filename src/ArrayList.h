@@ -77,6 +77,16 @@ public:
 		return elements[pos];
 	}
 
+	List<E>* slice(int start, int end) {
+		this->goToPos(start);
+		List<E>* listSlice = new ArrayList<E>(end-start);
+		for (int i = 0; i<listSlice.getSize(); i++) {
+			listSlice->append(this->getElement());
+			this->next();
+		}
+		return listSlice;
+	}
+
 	void goToStart() {
 		pos = 0;
 	}

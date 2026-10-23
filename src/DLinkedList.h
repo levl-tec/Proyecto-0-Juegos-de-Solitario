@@ -2,6 +2,7 @@
 
 #include "List.h"
 #include "DNode.h"
+#include "ArrayList.h"
 #include <iostream>
 #include <stdexcept>
 
@@ -118,6 +119,16 @@ public:
 			pos++;
 		}
 		return pos;
+	}
+
+	List<E>* slice(int start, int end) {
+		this->goToPos(start);
+		List<E>* listSlice = new ArrayList<E>(end-start);
+		for (int i = 0; i<listSlice.getSize(); i++) {
+			listSlice->append(this->getElement());
+			this->next();
+		}
+		return listSlice;
 	}
 
 	int getSize() {

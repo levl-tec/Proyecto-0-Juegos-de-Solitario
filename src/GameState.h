@@ -5,13 +5,13 @@
 
 class GameState {
 private:
-    Board board;
+    Board* board;
 
 public:
 
     GameState() {}
 
-    GameState(Board board) {
+    GameState(Board* board) {
         this->board = board;
     }
 };

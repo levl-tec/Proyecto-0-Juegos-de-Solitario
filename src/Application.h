@@ -19,21 +19,21 @@ public:
         this->actual = actual;
     }
 
-    void cambiarEstado(GameState newState) {
+    void changeState(GameState newState) {
         if (future->getSize() != 0)
             future->clear();
         past->push(actual);
         this->actual = newState;
     }
 
-    void irAlPasado() {
+    void goToPast() {
         if (past->getSize() == 0)
             throw std::runtime_error("THERE'S NO PAST");
         future->push(actual);
         this->actual = past->pop();
     }
 
-    void irAlFuturo() {
+    void goToFuture() {
         if (future->getSize() == 0)
             throw std::runtime_error("THERE'S NO FUTURE");
         past->push(actual);

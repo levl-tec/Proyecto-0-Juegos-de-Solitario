@@ -10,12 +10,25 @@
 
 class GolfBoard : public Board {
 private:
-    List<Column>* board = new ArrayList<Column>(7);
+    List<Column>* board;
     Column stockpile;
     Column discardpile;
     static int score;
+    static int round;
 
 public:
+
+    GolfBoard(Column stockpile, Column discardpile, List<Column>* board) {
+        this->board = new ArrayList<Column>(7);
+        this->stockpile = stockpile;
+        this->discardpile = discardpile;
+        this->score = 0;
+        this->round = 0;
+        this->round++;
+    }
+
+    GolfBoard() {}
+
     int contarPuntos() {
         int sum = 0;
         for (int i = 0; i < board->getSize(); i++) {
