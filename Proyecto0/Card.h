@@ -2,32 +2,31 @@
 
 #include <iostream>
 #include <string>
-#include "CardValue.h"
 
 class Carta {
 private:
-    char palo;
-    int vision;
-    CardValue value;
+    char rank;
+    bool faceUp;
+    int value;
 
 public:
 
-    Carta(char palo, int value, int vision) {
-        this->palo = palo;
-        this->vision = vision;
-        this-> value = CardValue(value);
+    Carta(char palo, int value, bool vision) {
+        this->rank = rank;
+        this->faceUp = faceUp;
+        this-> value = value;
     }
 
     Carta() {}
 
-    CardValue getValue() {
+    int getValue() {
         return value;
     }
 
     friend std::ostream& operator<<(std::ostream& os, Carta c) {
         std::string simbolo;
 
-        switch (c.palo) {
+        switch (c.rank) {
             case 'S':
                 simbolo = "♠";
                 break;
@@ -44,7 +43,7 @@ public:
 
         std::string rango;
 
-        switch (c.value.value) {
+        switch (c.value) {
             case 1:
                 rango = "A";
                 break;
@@ -58,7 +57,7 @@ public:
                 rango = "K";
                 break;
             default:
-                rango = std::to_string(c.value.value);
+                rango = std::to_string(c.value);
 
         }
 
