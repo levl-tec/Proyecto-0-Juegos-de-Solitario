@@ -66,6 +66,62 @@ int pruebas()
 
     std::cout << "Se creo el golfboard correctamente" << std::endl;
 
-    std::cout << "Sali de pruebas()" << std::endl;
+    
+    Column stockpile2 = Column();
+
+    for (int i = 0; i < 8; i++) {
+        List<Card>* cardSecuence = new ArrayList<Card>(13);
+        for (int j = 1; j < 14; j++) {
+            Card card = Card(ranks[1], j, 1);
+            cardSecuence->append(card);
+        }
+
+        std::cout << "Mezclando Palo" << std::endl;
+        int size = cardSecuence->getSize();
+        while (size != 0) {
+            std::cout << size << std::endl;
+            int num = rand() % cardSecuence->getSize();
+            std::cout << "Creando Numero aleatorio" << std::endl;
+            cardSecuence->goToPos(num);
+            std::cout << "Yendo al numero" << std::endl;
+            Card card = cardSecuence->remove();
+            std::cout << "Saque la carta" << std::endl;
+            stockpile2.addCard(card);
+            std::cout << "Agregue la carta" << std::endl;
+            size = cardSecuence->getSize();
+            std::cout << size << std::endl;
+        }
+    }
+
+     List<Column*>* board2 = new ArrayList<Column*>(10);
+    for (int j = 0; j < 10; j++) {
+        std::cout << "Creando columnas" << std::endl;
+        List<Card>* columnCards = new DLinkedList<Card>();
+        if (j <= 4) {
+            for (int k = 0; k < 6; k++) {
+            Card card = stockpile2.removeCard();
+            if (k != 5)
+                card.setVisibility(0);
+            columnCards->append(card);
+            }
+        }
+        else {
+            for (int k = 0; k < 5; k++) {
+                Card card = stockpile2.removeCard();
+                if (k != 4)
+                    card.setVisibility(0);
+                columnCards->append(card);
+            }
+        }
+        Column* column = new Column(columnCards);
+        board2->append(column);
+    }
+    
+     std::cout << "Se creo el board" << std::endl;
+
+    Board* spider = new SpiderBoard(stockpile2, board2);
+
+    std::cout << "Saliendo de pruebas" << std::endl;
+
     return 0;
 }

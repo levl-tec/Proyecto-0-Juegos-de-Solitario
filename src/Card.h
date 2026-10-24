@@ -28,6 +28,10 @@ public:
         return faceUp;
     }
 
+    void setVisibility(bool faceUp) {
+        this->faceUp = faceUp;
+    }
+
     friend std::ostream& operator<<(std::ostream& os, Card c) {
         std::string simbolo;
 
