@@ -24,6 +24,10 @@ public:
         return value;
     }
 
+    bool isVisible() {
+        return faceUp;
+    }
+
     friend std::ostream& operator<<(std::ostream& os, Card c) {
         std::string simbolo;
 

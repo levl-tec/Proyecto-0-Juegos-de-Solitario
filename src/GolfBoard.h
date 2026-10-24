@@ -20,7 +20,7 @@ private:
 public:
 
     GolfBoard(Column stockpile, Column discardpile, List<Column*>* board) {
-        this->board = new ArrayList<Column*>(7);
+        this->board = board;
         this->stockpile = stockpile;
         this->discardpile = discardpile;
         this->score = 0;

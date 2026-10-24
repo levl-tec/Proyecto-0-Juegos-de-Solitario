@@ -1,36 +1,42 @@
 #include <iostream>
 #include <windows.h>
-#include "PilaCartas.h"
-#include "Carta.h"
+#include <cstdlib>
+#include "Board.h"
+#include "Card.h"
 #include "DLinkedList.h"
 #include "ArrayStack.h"
-#include "Estado.h"
+#include "GameState.h"
+#include "GolfBoard.h"
+#include "SpiderBoard.h"
 
-int pruebas()
+
+
+int main()
 {
-    SetConsoleOutputCP(CP_UTF8);
-    SetConsoleCP(CP_UTF8);
+    char* ranks = new char [4] {'S', 'C', 'H', 'D'};
+    Column stockpile = Column();
+    srand(time(0));
+    for (int i = 0; i < 4; i++) {
+        List<Card>* cardSecuence = new ArrayList<Card>(13);
+        for (int j = 1; j < 14; j++) {
+            Card card = Card(ranks[i], j, 1);
+            cardSecuence->append(card);
+        }
+        while (cardSecuence->getSize() != 0) {
+            int num = rand() % cardSecuence->getSize();
+            cardSecuence->goToPos(num);
+            stockpile.addCard(cardSecuence->remove());
+        }
+    }
+    // for (int i = 0; i < 35; i++) {
+    //     stockpile.removeCard();
+        
+    // }
 
-    Carta cartaPrueba = Carta('S', 1, 1);
-    Carta cartaPrueba2 = Carta('H', 13, 1);
-    Carta cartaPrueba3 = Carta('D', 2, 1);
-    Carta cartaPrueba4 = Carta('C', 12, 1);
-    std::cout << cartaPrueba;
-    std::cout << '\n' << '\n';
-    std::cout << (cartaPrueba.getValue() > cartaPrueba2.getValue()) << '\n';
+    // Column discardpile = Column();
+    // discardpile.addCard(stockpile.removeCard());
+    // GolfBoard golf = GolfBoard(stockpile, discardpile, List<Column*>* board);
 
-    std::cout << "Inicio pruebas pilasCartas, mazo, estado" << '\n';
-    List<Carta>* cartas = new DLinkedList<Carta>();
-    List<Carta>* cartas2 = new DLinkedList<Carta>();
-    cartas->append(cartaPrueba);
-    cartas->append(cartaPrueba2);
-    cartas2->append(cartaPrueba3);
-    cartas2->append(cartaPrueba4);
-    PilaCartas pilaCartas = PilaCartas(cartas);
-    PilaCartas pilaCartas2 = PilaCartas(cartas2);
-    List<PilaCartas>* pilasCartas = new ArrayList<PilaCartas>(7);
-    pilasCartas->append(pilaCartas);
-    pilasCartas->append(pilaCartas2);
-    Stack<Carta>* mazo = new ArrayStack<Carta>();
+
     return 0;
 }
