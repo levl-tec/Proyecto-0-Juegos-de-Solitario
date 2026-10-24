@@ -3,6 +3,7 @@
 #include <iostream>
 #include <string>
 
+
 class Card {
 private:
     char rank;
@@ -11,10 +12,10 @@ private:
 
 public:
 
-    Card(char palo, int value, bool vision) {
+    Card(char rank, int value, bool faceUp) {
         this->rank = rank;
         this->faceUp = faceUp;
-        this-> value = value;
+        this->value = value;
     }
 
     Card() {}
@@ -72,5 +73,4 @@ public:
         os << "└─────────┘";
         return os;
     }
-
 };

@@ -4,5 +4,4 @@ class Board {
 
 public:
     Board() {}
-    
 };
