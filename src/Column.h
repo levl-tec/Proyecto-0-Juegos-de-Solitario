@@ -1,52 +1,78 @@
 ﻿#pragma once
 
 #include <iostream>
+#include <stdexcept>
 #include "Card.h"
 #include "DLinkedList.h"
-#include "typeOfColumn.h"
 
 class Column {
 private:
     List<Card>* cards;
-    typeOfColumn type;
 
 public:
-    Column(List<Card>* cards, typeOfColumn type) {
+    Column(List<Card>* cards) {
         this->cards = cards;
-        this->type = type;
     }
 
-    Column() {}
+    Column() {
+        cards = new DLinkedList<Card>();
+    }
 
     int getSize() {
         return cards->getSize();
     }
 
-    List<Card>* moveCards(int start, int end) {
-        List<Card>* columnSlice = cards->slice(start, end);
+    List<Card>* getCards() {
+        return cards;
+    }
+
+    Card getLastCard() {
+        cards->goToEnd();
+        cards->previous();
+        return cards->getElement();
+    }
+
+    List<Card>* removeCards(int start) {
+        int size = cards->getSize();
+        List<Card>* columnSlice = cards->slice(start, size-1);
         cards->goToPos(start);
-        for (int i = 0; i < columnSlice->getSize(); i++) {
-            cards->remove();
-            cards->next();
+        for (int i = 0; i < size; i++) {
+            Card fCard = cards->remove();
+            if (!(cards->atEnd())) {
+                cards->next();
+                Card sCard = cards->remove();
+                if (!(fCard.getValue() > sCard.getValue()))
+                    throw std::runtime_error("CARDS MUST BE IN ASCENDING ORDER");
+            }
         }
         return columnSlice;
     }
 
     Card removeCard() {
-        cards->goToEnd();
+        if (cards->getSize() == 0)
+            throw std::runtime_error("Column is empty");
+
+        cards->goToPos(cards->getSize() - 1);
         return cards->remove();
     }
 
     void addCards(List<Card>* newCards) {
         newCards->goToStart();
         for (int i = 0; i < newCards->getSize(); i++) {
-            cards->append(newCards->getElement());
             newCards->next();
+            cards->append(newCards->getElement());
         }
     }
 
     void addCard(Card newCard) {
         cards->append(newCard);
+    }
+
+    void isValidColumnMove(List<Card>* newCards) {
+        newCards->goToPos(1);
+        cards->goToPos(cards->getSize()-1);
+        if (cards->getElement().getValue() <= newCards->getElement().getValue())
+            throw std::runtime_error("CARDS MUST STAY IN ASCENDING ORDER");
     }
 
 //     friend std::ostream& operator<<(std::ostream& os, Column pila) {

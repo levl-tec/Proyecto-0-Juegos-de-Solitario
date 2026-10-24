@@ -1,0 +1,3 @@
+C:/msys64/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/15.2.0/../../../../x86_64-w64-mingw32/bin/ld.exe: C:\Users\LENOVO~1\AppData\Local\Temp\ccgsRP2V.o:Pruebas.cpp:(.rdata$.refptr._ZN9GolfBoard5roundE[.refptr._ZN9GolfBoard5roundE]+0x0): undefined reference to `GolfBoard::round'
+C:/msys64/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/15.2.0/../../../../x86_64-w64-mingw32/bin/ld.exe: C:\Users\LENOVO~1\AppData\Local\Temp\ccgsRP2V.o:Pruebas.cpp:(.rdata$.refptr._ZN9GolfBoard5scoreE[.refptr._ZN9GolfBoard5scoreE]+0x0): undefined reference to `GolfBoard::score'
+collect2.exe: error: ld returned 1 exit status
