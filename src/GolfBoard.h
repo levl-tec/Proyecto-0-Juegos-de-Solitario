@@ -14,8 +14,8 @@ private:
     List<Column*>* board;
     Column stockpile;
     Column discardpile;
-    static int score;
-    static int round;
+    int score = 0;
+    int round = 0;
 
 public:
 
@@ -23,19 +23,17 @@ public:
         this->board = board;
         this->stockpile = stockpile;
         this->discardpile = discardpile;
-        this->score = 0;
-        this->round = 0;
-        this->round++;
     }
 
     GolfBoard() {}
 
-    int sumatory() {
+    void sumatory() {
         int sum = 0;
         for (int i = 0; i < board->getSize(); i++) {
             sum += board->getElement()->getSize();
         }
         sum -= stockpile.getSize();
+        score = score + sum;
     }
 
     void discardCard(int columnPos) {
@@ -52,6 +50,11 @@ public:
             return 1;
         int difference = valueCardToDiscard - valueDiscardPileCard;
         return abs(difference) == 1;
+    }
+
+    void nextRound() {
+        round++;
+        sumatory();
     }
 
 };

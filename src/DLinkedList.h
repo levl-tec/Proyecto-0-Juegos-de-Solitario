@@ -126,7 +126,7 @@ public:
 			return this;
 		this->goToPos(start);
 		List<E>* listSlice = new ArrayList<E>(end-start);
-		for (int i = 0; i<listSlice.getSize(); i++) {
+		for (int i = 0; i<listSlice->getSize(); i++) {
 			listSlice->append(this->getElement());
 			this->next();
 		}

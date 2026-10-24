@@ -80,7 +80,7 @@ public:
 	List<E>* slice(int start, int end) {
 		this->goToPos(start);
 		List<E>* listSlice = new ArrayList<E>(end-start);
-		for (int i = 0; i<listSlice.getSize(); i++) {
+		for (int i = 0; i<listSlice->getSize(); i++) {
 			listSlice->append(this->getElement());
 			this->next();
 		}

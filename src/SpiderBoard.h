@@ -33,13 +33,13 @@ public:
         int indexStart = column->getSize()-amountOfCards;
         List<Card>* cardsMoved = column->removeCards(indexStart);
         board->goToPos(columnDestiny);
-        Column* column = board->getElement();
-        column->isValidColumnMove(cardsMoved);
-        column->addCards(cardsMoved);
+        Column* column2 = board->getElement();
+        column2->isValidColumnMove(cardsMoved);
+        column2->addCards(cardsMoved);
         cardsMoved->goToEnd();
-        if (cardsMoved->getElement().getValue() == 1 && column->getSize() >= 13)
-            if (isCompleteSecuence(column->removeCards(column->getSize()-12)))
-                column->removeCards(column->getSize()-12);
+        if (cardsMoved->getElement().getValue() == 1 && column2->getSize() >= 13)
+            if (isCompleteSecuence(column2->removeCards(column2->getSize()-12)))
+                column2->removeCards(column2->getSize()-12);
     }
 
     boolean isCompleteSecuence(List<Card>* columnSlice) {

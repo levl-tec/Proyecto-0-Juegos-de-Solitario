@@ -14,7 +14,9 @@ public:
         this->cards = cards;
     }
 
-    Column() {}
+    Column() {
+        cards = new DLinkedList<Card>();
+    }
 
     int getSize() {
         return cards->getSize();
@@ -26,6 +28,7 @@ public:
 
     Card getLastCard() {
         cards->goToEnd();
+        cards->previous();
         return cards->getElement();
     }
 
@@ -46,15 +49,18 @@ public:
     }
 
     Card removeCard() {
-        cards->goToEnd();
+        if (cards->getSize() == 0)
+            throw std::runtime_error("Column is empty");
+
+        cards->goToPos(cards->getSize() - 1);
         return cards->remove();
     }
 
     void addCards(List<Card>* newCards) {
         newCards->goToStart();
         for (int i = 0; i < newCards->getSize(); i++) {
-            cards->append(newCards->getElement());
             newCards->next();
+            cards->append(newCards->getElement());
         }
     }
 
@@ -63,8 +69,8 @@ public:
     }
 
     void isValidColumnMove(List<Card>* newCards) {
-        newCards->goToStart();
-        cards->goToEnd();
+        newCards->goToPos(1);
+        cards->goToPos(cards->getSize()-1);
         if (cards->getElement().getValue() <= newCards->getElement().getValue())
             throw std::runtime_error("CARDS MUST STAY IN ASCENDING ORDER");
     }

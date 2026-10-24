@@ -15,7 +15,9 @@ using std::cout;
 using std::cin;
 using std::endl;
 
-int mainnn () {
-    
-    return 0;
+int pruebas();
+
+int notmain () {
+
+    return pruebas();
 }
