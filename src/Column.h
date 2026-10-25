@@ -32,19 +32,36 @@ public:
         return cards->getElement();
     }
 
-    List<Card>* removeCards(int start) {
-        int size = cards->getSize();
-        List<Card>* columnSlice = cards->slice(start, size-1);
+    List<Card>* removeSlice(int start) {
+        List<Card>* columnSlice = getSlice(start);
+
+        int amount = cards->getSize() - start;
+
         cards->goToPos(start);
-        for (int i = 0; i < size; i++) {
-            Card fCard = cards->remove();
-            if (!(cards->atEnd())) {
-                cards->next();
-                Card sCard = cards->remove();
-                if (!(fCard.getValue() > sCard.getValue()))
-                    throw std::runtime_error("CARDS MUST BE IN ASCENDING ORDER");
-            }
+
+        for (int i = 0; i < amount; i++) {
+            cards->remove();
         }
+        return columnSlice;
+    }
+
+    List<Card>* getSlice(int start) {
+        int size = cards->getSize();
+
+        if (start < 0 || start >= size)
+            throw std::runtime_error("Invalid slice start");
+
+        List<Card>* columnSlice = cards->slice(start, size-1);
+
+        columnSlice->goToPos(start);
+
+        for (int i = 1; i < columnSlice->getSize(); i++) {
+            Card fCard = columnSlice->getElement();
+            cards->next();
+            Card sCard = columnSlice->getElement();
+            if (fCard.getValue() != sCard.getValue() + 1)
+                throw std::runtime_error("CARDS MUST BE IN ASCENDING ORDER");
+            }
         return columnSlice;
     }
 
@@ -59,8 +76,8 @@ public:
     void addCards(List<Card>* newCards) {
         newCards->goToStart();
         for (int i = 0; i < newCards->getSize(); i++) {
-            newCards->next();
             cards->append(newCards->getElement());
+            newCards->next();
         }
     }
 
@@ -69,9 +86,14 @@ public:
     }
 
     void isValidColumnMove(List<Card>* newCards) {
-        newCards->goToPos(1);
-        cards->goToPos(cards->getSize()-1);
-        if (cards->getElement().getValue() <= newCards->getElement().getValue())
+        if (newCards->getSize() == 0)
+            throw std::runtime_error("No cards to move");
+
+        if (cards->getSize() == 0)
+            return;
+
+        newCards->goToStart();
+        if (this->getLastCard().getValue() != newCards->getElement().getValue() + 1)
             throw std::runtime_error("CARDS MUST STAY IN ASCENDING ORDER");
     }
 

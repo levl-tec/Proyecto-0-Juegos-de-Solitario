@@ -67,6 +67,8 @@ public:
 	}
 
 	E getElement() {
+		if (size == 0)
+			throw std::runtime_error("List Is Empty");
 		return current->next->element;
 	}
 
@@ -122,11 +124,12 @@ public:
 	}
 
 	List<E>* slice(int start, int end) {
-		if (start == 0 && end == size - 1)
-			return this;
+		if (start < 0 || end < start || end >= size)
+        	throw std::runtime_error("Invalid slice range");
+
 		this->goToPos(start);
-		List<E>* listSlice = new ArrayList<E>(end-start);
-		for (int i = 0; i<listSlice->getSize(); i++) {
+		List<E>* listSlice = new ArrayList<E>(end-start+1);
+		for (int i = start; i <= end; i++) {
 			listSlice->append(this->getElement());
 			this->next();
 		}
