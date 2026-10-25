@@ -79,8 +79,8 @@ public:
 
 	List<E>* slice(int start, int end) {
 		this->goToPos(start);
-		List<E>* listSlice = new ArrayList<E>(end-start);
-		for (int i = 0; i<listSlice->getSize(); i++) {
+		List<E>* listSlice = new ArrayList<E>(end-start+1);
+		for (int i = 0; i < end-start+1; i++) {
 			listSlice->append(this->getElement());
 			this->next();
 		}

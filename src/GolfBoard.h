@@ -14,8 +14,10 @@ private:
     List<Column*>* board;
     Column stockpile;
     Column discardpile;
+    inline static int cardsInTheBoard = 35;
     int score = 0;
     int round = 0;
+    inline static int globalScore = 0;
 
 public:
 
@@ -28,19 +30,19 @@ public:
     GolfBoard() {}
 
     void sumatory() {
-        int sum = 0;
-        for (int i = 0; i < board->getSize(); i++) {
-            sum += board->getElement()->getSize();
-        }
-        sum -= stockpile.getSize();
-        score = score + sum;
+        if (cardsInTheBoard == 0)
+            score -= stockpile.getSize();
+        else   
+            score += cardsInTheBoard;
     }
 
     void discardCard(int columnPos) {
         board->goToPos(columnPos);
         Column* column = board->getElement();
-        if (isValidDiscard(column->getLastCard()))
+        if (isValidDiscard(column->getLastCard())) {
             discardpile.addCard(column->removeCard());
+            cardsInTheBoard--;
+        }
     }
 
     bool isValidDiscard(Card cardToDiscard) {
@@ -55,6 +57,19 @@ public:
     void nextRound() {
         round++;
         sumatory();
+        globalScore += score;
+        cardsInTheBoard = 35;
     }
 
+    bool isThereAValidMove() {
+        if (cardsInTheBoard == 0)
+            return 0;
+        board->goToStart();
+        for (int i = 0; i < board->getSize(); i++) {
+            if(isValidDiscard(board->getElement()->getLastCard()))
+                return 1;
+            board->next();
+        }
+        return 0;
+    }
 };

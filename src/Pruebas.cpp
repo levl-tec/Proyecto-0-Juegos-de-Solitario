@@ -293,7 +293,7 @@ int pruebas()
     for (int j = 0; j < 10; j++) {
         std::cout << "Creando columnas" << std::endl;
         List<Card>* columnCards = new DLinkedList<Card>();
-        if (j <= 4) {
+        if (j < 4) {
             for (int k = 0; k < 6; k++) {
             Card card = stockpile2.removeCard();
             if (k != 5)
