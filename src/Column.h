@@ -130,7 +130,7 @@ public:
 
         newCards->goToStart();
         if (this->getLastCard().getValue() != newCards->getElement().getValue() + 1)
-            throw std::runtime_error("Debe colocar las Cartas sobre una carta de valor inmediatamente mayor");
+            throw std::runtime_error("Debe colocar las cartas sobre una carta de valor inmediatamente mayor");
     }
 
     void flipLastCard() {
