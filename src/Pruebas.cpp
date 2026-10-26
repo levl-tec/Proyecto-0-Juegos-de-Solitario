@@ -18,7 +18,7 @@ int pruebas()
     std::cout << "Entre a pruebas()" << std::endl;
     char* ranks = new char [4] {'S', 'C', 'H', 'D'};
     Column stockpile = Column();
-    srand(time(0));
+    srand((unsigned int)time(0));
     List<Card>* cardSecuence = new ArrayList<Card>(13);
 
     for (int i = 0; i < 4; i++) {

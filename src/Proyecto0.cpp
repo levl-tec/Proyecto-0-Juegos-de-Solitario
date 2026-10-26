@@ -32,7 +32,7 @@ void playGolf() {
     InteractionEngine* ie = InteractionEngine::getInstance();
     Renderer* re = Renderer::getInstance();
     Application app(GameState(new GolfBoard()));
-    
+    std::string message = "";
 
     while (true) { // Start of Golf game loop
         GolfBoard* g = (GolfBoard*)app.getCurrent(); // Get game state
@@ -57,7 +57,13 @@ void playGolf() {
             continue;
         }
         
+        re->clearScreen(); // Clear console
         re->showGolf(g); // Display on console 
+        if (message.size() > 0) { // If there are messages, display them
+            ie->showMessage(message);
+            message = "";
+        }
+
 
         if ((!g->isThereAValidMove()) && (g->getStockSize() > 0))
             ie->showMessage("No hay jugadas disponibles: voltee una carta del mazo.");
@@ -75,7 +81,7 @@ void playGolf() {
             }
             catch (const std::runtime_error& e) {
                 delete next;
-                ie->showError(e.what());
+                message = std::string("Error: ") + e.what();
             }
         }
 
@@ -87,7 +93,7 @@ void playGolf() {
             }
             catch (const std::runtime_error& e) {
                 delete next;
-                ie->showError(e.what());
+                message = std::string("Error: ") + e.what();
             }
         }
 
@@ -96,7 +102,7 @@ void playGolf() {
                 app.goToPast(); 
             }
             catch (const std::runtime_error& e) {
-                ie->showError(e.what());
+                message = std::string("Error: ") + e.what();
             }
         }
 
@@ -105,7 +111,7 @@ void playGolf() {
                 app.goToFuture();
             }
             catch (const std::runtime_error& e) {
-                ie->showError(e.what());
+                message = std::string("Error: ") + e.what();
             }
         }
 
@@ -139,6 +145,8 @@ void playSpider() {
     InteractionEngine* ie = InteractionEngine::getInstance();
     Renderer* re = Renderer::getInstance();
     Application app(GameState(new SpiderBoard()));
+    std::string message = "";
+
 
     while (true) { // Start of Spider game loop
         SpiderBoard* s = (SpiderBoard*)app.getCurrent(); // Get game state
@@ -149,7 +157,12 @@ void playSpider() {
             break;
         }
 
+        re->clearScreen(); // Clear console
         re->showSpider(s); // Display on console
+        if (message.size() > 0) { // If there are messages, display them
+            ie->showMessage(message);
+            message = "";
+        }
 
         int action = ie->selectAction(InteractionEngine::SPIDER); // Get user input
 
@@ -163,11 +176,11 @@ void playSpider() {
                 bool completed = ((SpiderBoard*)next)->changeColumn(origin, dest, amount);
                 app.changeState(GameState(next));
                 if (completed)
-                    ie->showMessage("¡Completó una escalera!");
+                    message = "¡Completó una escalera!";
             }
             catch (const std::runtime_error& e) {
                 delete next;
-                ie->showError(e.what());
+                message = std::string("Error: ") + e.what();
             }
         }
 
@@ -177,11 +190,11 @@ void playSpider() {
                 int runs = ((SpiderBoard*)next)->dealRow();
                 app.changeState(GameState(next));
                 if (runs > 0)
-                    ie->showMessage("¡Completó una escalera!");
+                    message = "¡Completó una escalera!";
             }
             catch (const std::runtime_error& e) {
                 delete next;
-                ie->showError(e.what());
+                message = std::string("Error: ") + e.what();
             }
         }
 
@@ -190,7 +203,7 @@ void playSpider() {
                 app.goToPast();
             }
             catch (const std::runtime_error& e) {
-                ie->showError(e.what());
+                message = std::string("Error: ") + e.what();
             }
         }
 
@@ -199,7 +212,7 @@ void playSpider() {
                 app.goToFuture();
             }
             catch (const std::runtime_error& e) {
-                ie->showError(e.what());
+                message = std::string("Error: ") + e.what();
             }
         }
 
@@ -245,7 +258,8 @@ int menu() {
 
 int main()
 {
-    srand(time(0));
+    SetConsoleOutputCP(CP_UTF8);
+    srand((unsigned int)time(0));
 
     int resultado = 0;
 
@@ -264,7 +278,7 @@ int main()
 
 
 
-// SetConsoleOutputCP(CP_UTF8);
+// 
 // SetConsoleCP(CP_UTF8);
 // int result = 0;
 

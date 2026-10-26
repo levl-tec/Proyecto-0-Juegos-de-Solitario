@@ -1,6 +1,8 @@
 ﻿#pragma once
 
+#include <cstdlib>
 #include <iostream>
+#include <string>
 #include "Card.h"
 #include "GolfBoard.h"
 #include "SpiderBoard.h"
@@ -17,24 +19,69 @@ public:
 		static Renderer instance;
 		return &instance;
 	}
-	
-	void showCard(Card c) {
-		if (!c.isVisible()) {
-			std::cout << "## ";
-			return;
-		}
+
+	std::string suitSymbol(char suit) {
+		if (suit == 'S') return "♠";
+		else if (suit == 'H') return "♥";
+		else if (suit == 'D') return "♦";
+		else return "♣";
+	}
+
+	std::string cardText(Card c) {
+		if (!c.isVisible()) return "##";
+		std::string value;
 		int v = c.getValue();
 		if (v == 1)
-			std::cout << "A";
+			value = "A";
 		else if (v == 11)
-			std::cout << "J";
+			value = "J";
 		else if (v == 12)
-			std::cout << "Q";
+			value = "Q";
 		else if (v == 13)
-			std::cout << "K";
+			value = "K";
 		else
-			std::cout << v;
-		std::cout << c.getSuit() << " ";
+			value = std::to_string(v);
+		return value + suitSymbol(c.getSuit());
+	}
+
+	void showCard(Card c) {
+		std::cout << cardText(c) << " ";
+	}
+
+	// Counts characters on screen, not bytes. In UTF-8, the extra
+	// bytes of a symbol always start with the bits 10xxxxxx.
+	int displayWidth(std::string t) {
+		int count = 0;
+		for (int i = 0; i < (int)t.size(); i++)
+			if ((t[i] & 0xC0) != 0x80) count++;
+		return count;
+	}
+
+	void printPadded(std::string t, int width) {
+		std::cout << t;
+		for (int i = displayWidth(t); i < width; i++) std::cout << " ";
+	}
+
+	void showColumns(Column** cols, int count) {
+		for (int c = 1; c <= count; c++) {
+			printPadded("  " + std::to_string(c), 6);
+		}
+		std::cout << std::endl;
+
+		int maxHeight = 0;
+		for (int c = 0; c < count; c++) {
+			if (cols[c]->getSize() > maxHeight) maxHeight = cols[c]->getSize();
+		}
+
+		for (int r = 0; r < maxHeight; r++) {
+			for (int c = 0; c < count; c++) {
+				if (r < cols[c]->getSize())
+					printPadded("  " + cardText(cols[c]->getCard(r)), 6);
+				else
+					printPadded("", 6);
+			}
+			std::cout << std::endl;
+		}
 	}
 
 	void showGolf(GolfBoard* g) {
@@ -44,19 +91,9 @@ public:
 		showCard(g->getDiscardTop());
 		std::cout << std::endl;
 
-		for (int c = 1; c < 8; c++) {
-			Column* col = g->getColumn(c);
-			std::cout << "Col " << c << ": ";
-
-			int i = 0;
-			while (i < col->getSize()) {
-				showCard(col->getCard(i));
-				i++;
-			}
-			std::cout << std::endl;
-
-		}
-
+		Column* cols[7];
+		for (int c = 1; c <= 7; c++) cols[c - 1] = g->getColumn(c);
+		showColumns(cols, 7);
 
 	}
 
@@ -64,22 +101,13 @@ public:
 		std::cout << "Repartos restantes: " << s->getDealsLeft() << " | Escaleras completadas: "
 			<< s->getCompletedRuns() << " de 8" << std::endl;
 
-		for (int c = 1; c < 11; c++) {
-			Column* col = s->getColumn(c);
-			std::cout << "Col " << c << ": ";
-
-			int i = 0;
-			while (i < col->getSize()) {
-				showCard(col->getCard(i));
-				i++;
-			}
-			std::cout << std::endl;
-
-		}
-
+		Column* cols[10];
+		for (int c = 1; c <= 10; c++) cols[c - 1] = s->getColumn(c);
+		showColumns(cols, 10);
 	}
 
 	
+	void clearScreen() { system("cls"); }
 
 };
 
