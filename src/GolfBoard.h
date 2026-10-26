@@ -2,6 +2,7 @@
 
 #include <iostream>
 #include <cmath>
+#include <string>
 #include "ArrayList.h"
 #include "Stack.h"
 #include "LinkedStack.h"
@@ -18,6 +19,7 @@ private:
     int score = 0;
     int round = 1;
     int globalScore = 0;
+    bool gameOver = false; 
     
     void deal() {
 
@@ -65,6 +67,26 @@ public:
         }
         deal();
     }
+    
+    int getRound() { return round; }
+
+    int getTotalScore() { return globalScore; }
+
+    std::string getRating() {
+        int total = getTotalScore();
+        if (total <= 0) {
+            return "Perfecto";
+        }
+        else if (total <= 45) {
+            return "Regular";
+        }
+        else {
+            return "Malo";
+        }
+    }
+
+    bool isGameOver() { return gameOver; }
+
 
     void sumatory() {
         if (cardsInTheBoard == 0)
@@ -107,12 +129,24 @@ public:
         discardPile.addCard(c);
     }
 
-    void nextRound() {
-        round++;
+    int nextRound() {
         sumatory();
+        int roundPoints = score;
         globalScore += score;
         score = 0;
-        deal();
+        if (round < 9) {
+            round++;
+            deal();
+        }
+        else {
+            gameOver = true;
+        }
+        return roundPoints;
+    }
+
+    void abandon() {
+        globalScore += (35 * (9 - round) + cardsInTheBoard);
+        gameOver = true;
     }
 
     bool isThereAValidMove() {
