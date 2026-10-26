@@ -35,14 +35,14 @@ public:
 
     void goToPast() {
         if (past->getSize() == 0)
-            throw std::runtime_error("No hay jugadas para des-hacer");
+            throw std::runtime_error("No hay jugadas para deshacer");
         future->push(actual);
         this->actual = past->pop();
     }
 
     void goToFuture() {
         if (future->getSize() == 0)
-            throw std::runtime_error("No hay jugadas para re-hacer");
+            throw std::runtime_error("No hay jugadas para rehacer");
         past->push(actual);
         this->actual = future->pop();
     }
