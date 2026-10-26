@@ -1,4 +1,4 @@
-#include <iostream>
+﻿#include <iostream>
 #include <windows.h>
 #include <cstdlib>
 #include "Board.h"
@@ -115,7 +115,7 @@ int pruebas()
 
     GolfBoard golfDescartes(mazoGolf, descarteGolf, columnasGolf);
 
-    golfDescartes.discardCard(0);
+    golfDescartes.discardCard(1);
 
     columnasGolf->goToPos(0);
 
@@ -127,7 +127,13 @@ int pruebas()
         std::cout << "ERROR: discardCard no movio correctamente" << std::endl;
     }
 
-    golfDescartes.discardCard(1);
+    try {
+        golfDescartes.discardCard(2);
+    }
+    catch (const runtime_error& e) {
+        std::cout << e.what();
+    }
+    
 
     columnasGolf->goToPos(1);
 

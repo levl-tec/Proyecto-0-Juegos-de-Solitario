@@ -45,24 +45,31 @@ public:
         return columnSlice;
     }
 
+    // Returns a NEW list with copies of the cards from index 'start' to the end
+    // of the column. It only extracts: it does not check the order of the cards
+    // and it does not modify the column. The caller must delete the returned list.
     List<Card>* getSlice(int start) {
         int size = cards->getSize();
 
         if (start < 0 || start >= size)
             throw std::runtime_error("Invalid slice start");
 
-        List<Card>* columnSlice = cards->slice(start, size-1);
+        return cards->slice(start, size - 1);
+    }
 
-        columnSlice->goToPos(start);
-
-        for (int i = 1; i < columnSlice->getSize(); i++) {
-            Card fCard = columnSlice->getElement();
-            cards->next();
-            Card sCard = columnSlice->getElement();
-            if (fCard.getValue() != sCard.getValue() + 1)
-                throw std::runtime_error("CARDS MUST BE IN ASCENDING ORDER");
-            }
-        return columnSlice;
+    // True if every card is exactly one value lower than the previous one
+    // (for example 9, 8, 7). A list with 0 or 1 cards counts as a run.
+    // Positions here are in the list that is passed in, which starts at 0.
+    static bool isRun(List<Card>* run) {
+        run->goToStart();
+        for (int i = 0; i < run->getSize() - 1; i++) {
+            Card first = run->getElement();
+            run->next();
+            Card second = run->getElement();
+            if (first.getValue() != second.getValue() + 1)
+                return false;
+        }
+        return true;
     }
 
     Card removeCard() {
@@ -97,17 +104,17 @@ public:
             throw std::runtime_error("CARDS MUST STAY IN ASCENDING ORDER");
     }
 
-//     friend std::ostream& operator<<(std::ostream& os, Column pila) {
-//         for (int i = 0; i < pila.cards->getSize(); i++) {
-//             std::cout << pila.cards->getElement() << '\n';
-//             pila.cards->next();
-//         }
-//         return os;
-// <<<<<<<< HEAD:src/Column.h
-//     } //ESTO VA AL RENDERER
-// };
-// ========
-//     }
+    //     friend std::ostream& operator<<(std::ostream& os, Column pila) {
+    //         for (int i = 0; i < pila.cards->getSize(); i++) {
+    //             std::cout << pila.cards->getElement() << '\n';
+    //             pila.cards->next();
+    //         }
+    //         return os;
+    // <<<<<<<< HEAD:src/Column.h
+    //     } //ESTO VA AL RENDERER
+    // };
+    // ========
+    //     }
 };
 
 // >>>>>>>> origin/main:src/PilaCartas.h

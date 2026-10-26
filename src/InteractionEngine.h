@@ -137,7 +137,7 @@ private:
 				}
 				return numero;
 			}
-			catch (runtime_error e) {
+			catch (const runtime_error& e) {
 				showError(e.what());
 			}
 		}
