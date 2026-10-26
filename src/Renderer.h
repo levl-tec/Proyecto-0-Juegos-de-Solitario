@@ -11,6 +11,8 @@
 class Renderer
 {
 private:
+	bool advancedUI = false;
+
 	Renderer() {}
 
 public:
@@ -18,6 +20,10 @@ public:
 	static Renderer* getInstance() {
 		static Renderer instance;
 		return &instance;
+	}
+
+	void setAdvancedUI(bool advancedUI) {
+		this->advancedUI = advancedUI;
 	}
 
 	std::string suitSymbol(char suit) {
@@ -84,7 +90,56 @@ public:
 		}
 	}
 
+	// How many cards at the bottom of the column can be moved together:
+	// visible cards, each one exactly one value lower than the one above it
+	int movableRun(Column* col) {
+		int size = col->getSize();
+		if (size == 0 || !col->getCard(size - 1).isVisible()) return 0;
+		int count = 1;
+		for (int r = size - 2; r >= 0; r--) {
+			Card upper = col->getCard(r);
+			Card lower = col->getCard(r + 1);
+			if (!upper.isVisible() || upper.getValue() != lower.getValue() + 1) break;
+			count++;
+		}
+		return count;
+	}
+
+	void showMovableRuns(Column** cols, int count) {
+		for (int c = 0; c < count; c++) {
+			printPadded("  (" + std::to_string(movableRun(cols[c])) + ")", 6);
+		}
+		std::cout << std::endl;
+		std::cout << "(n) = cartas que se pueden mover juntas de esa columna" << std::endl;
+	}
+
 	void showGolf(GolfBoard* g) {
+		if (advancedUI)
+			showGolfAdvanced(g);
+		else
+			showGolfBasic(g);
+	}
+
+	void showSpider(SpiderBoard* s) {
+		if (advancedUI)
+			showSpiderAdvanced(s);
+		else
+			showSpiderBasic(s);
+	}
+
+	// TODO: UI avanzada con las cartas dibujadas (ver documents/reference/reference.txt).
+	// Por ahora muestra un aviso y la UI basica.
+	void showGolfAdvanced(GolfBoard* g) {
+		std::cout << "[UI avanzada en construccion]" << std::endl;
+		showGolfBasic(g);
+	}
+
+	void showSpiderAdvanced(SpiderBoard* s) {
+		std::cout << "[UI avanzada en construccion]" << std::endl;
+		showSpiderBasic(s);
+	}
+
+	void showGolfBasic(GolfBoard* g) {
 		std::cout << "Ronda " << g->getRound() << " de 9 | Puntaje: " << g->getTotalScore() 
 			<< " | Mazo: " << g->getStockSize() << " cartas" << std::endl;
 		std::cout << "Descarte: ";
@@ -97,13 +152,14 @@ public:
 
 	}
 
-	void showSpider(SpiderBoard* s) {
+	void showSpiderBasic(SpiderBoard* s) {
 		std::cout << "Repartos restantes: " << s->getDealsLeft() << " | Escaleras completadas: "
 			<< s->getCompletedRuns() << " de 8" << std::endl;
 
 		Column* cols[10];
 		for (int c = 1; c <= 10; c++) cols[c - 1] = s->getColumn(c);
 		showColumns(cols, 10);
+		showMovableRuns(cols, 10);
 	}
 
 	

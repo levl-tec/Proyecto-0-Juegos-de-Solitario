@@ -14,7 +14,8 @@
 #include "Renderer.h"
 
 const bool RUN_TESTS = false; 
-const bool RUN_MAIN = true; 
+const bool RUN_MAIN = true;
+const bool ADVANCED_UI = false;
 
 int pruebas();
 
@@ -260,6 +261,7 @@ int main()
 {
     SetConsoleOutputCP(CP_UTF8);
     srand((unsigned int)time(0));
+    Renderer::getInstance()->setAdvancedUI(ADVANCED_UI);
 
     int resultado = 0;
 
