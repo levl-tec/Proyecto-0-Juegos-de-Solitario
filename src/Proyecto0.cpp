@@ -4,13 +4,82 @@
 #include <cstdio>
 #include <ctime>
 #include <string>
-#include "Column.h"
-#include "Card.h"
-#include "DLinkedList.h"
+#include "Application.h"
 #include "ArrayStack.h"
+#include "Card.h"
+#include "Column.h"
+#include "DLinkedList.h"
 #include "GameState.h"
+#include "InteractionEngine.h"
+#include "Renderer.h"
+
+const bool RUN_TESTS = false; 
+const bool RUN_MAIN = true; 
 
 int pruebas();
+
+void playGolf() {
+    std::cout << "Golf(En construccion)";
+
+}
+
+void playSpider() {
+    std::cout << "Spider(En construccion)";
+}
+
+int menu() {
+    InteractionEngine* ie = InteractionEngine::getInstance();
+    Renderer* re = Renderer::getInstance();
+
+    int mode = 0;
+
+    while (true) {
+        mode = ie->selectGameMode();
+        if (mode == 1) {
+            playGolf();
+        }
+        else if (mode == 2) {
+            playSpider();
+        }
+        else {
+            return 0;
+        }
+        if (!ie->selectPlayAgain())
+            return 0;
+    }
+    return 0;
+}
+
+int main()
+{
+    srand(time(0));
+
+    int resultado = 0;
+
+    if (RUN_TESTS) {
+        std::cout << "Iniciando pruebas...\n";
+        resultado += pruebas();
+        std::cout << "Pruebas finalizadas.\n";
+    } 
+    else if (RUN_MAIN) {
+        resultado += menu();
+    }
+    
+
+     return resultado;
+}
+
+
+
+// SetConsoleOutputCP(CP_UTF8);
+// SetConsoleCP(CP_UTF8);
+// int result = 0;
+
+// result += basicTest();
+// result += getConsoleProps();
+// result += resizeTest();
+// result += renderingTest();
+
 
 // static HANDLE out;
 
@@ -150,23 +219,3 @@ int pruebas();
 //     Stack<Card>* mazo = new ArrayStack<Card>();
 //     return 0;
 // }
-
-int main()
-{
-    srand(time(0));
-    std::cout << "Iniciando pruebas...\n";
-    // SetConsoleOutputCP(CP_UTF8);
-    // SetConsoleCP(CP_UTF8);
-    // int result = 0;
-    
-    // result += basicTest();
-    // result += getConsoleProps();
-    // result += resizeTest();
-    // result += renderingTest();
-
-    int resultado = pruebas();
-    std::cout << "Pruebas finalizadas.\n";
-
-     return resultado;
-}
-

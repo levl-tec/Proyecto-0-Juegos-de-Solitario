@@ -125,6 +125,10 @@ private:
 				int numero;
 				cin >> numero;
 				if (cin.fail()) {
+					if (cin.eof()) {
+						std::cout << "Entrada finalizada. Saliendo...";
+						std::exit(0);
+					}
 					cin.clear();
 					cin.ignore(1000, '\n');
 					throw runtime_error("Debe escribir un numero.");
