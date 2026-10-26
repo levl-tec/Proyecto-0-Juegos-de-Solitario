@@ -172,4 +172,20 @@ public:
         return (stockPile.getSize() == 0) && (!isThereAValidMove());
     }
 
+    Board* clone() {
+        GolfBoard* copy = new GolfBoard(*this);
+        copy->stockPile = stockPile.copy();
+        copy->discardPile = discardPile.copy();
+        copy->board = new ArrayList<Column*>(7);
+        
+        board->goToStart();
+        for (int i = 0; i < board->getSize(); i++) {
+            Column* c = board->getElement();
+
+            copy->board->append(new Column(c->copy()));
+            board->next();
+        }
+
+        return copy;
+    }
 };

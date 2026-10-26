@@ -193,4 +193,30 @@ public:
     int getDealsLeft() {
         return (stockpile.getSize() / 10);
     }
+
+    Board* clone() {
+        SpiderBoard* copy = new SpiderBoard(*this);
+        copy->stockpile = stockpile.copy();
+        
+        copy->board = new ArrayList<Column*>(10);
+        board->goToStart();
+        for (int i = 0; i < board->getSize(); i++) {
+            Column* c = board->getElement();
+
+            copy->board->append(new Column(c->copy()));
+            board->next();
+        }
+
+        copy->foundations = new ArrayList<Column*>(8);
+        foundations->goToStart();
+        for (int i = 0; i < foundations->getSize(); i++) {
+            Column* c = foundations->getElement();
+
+            copy->foundations->append(new Column(c->copy()));
+            foundations->next();
+        }
+
+        return copy;
+    }
+
 };

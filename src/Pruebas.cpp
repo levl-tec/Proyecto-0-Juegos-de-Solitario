@@ -353,7 +353,7 @@ int pruebas()
     std::cout << "Iniciando prueba de movimiento Spider" << std::endl;
 
     try {
-        spiderPrueba.changeColumn(0, 1, 1);
+        spiderPrueba.changeColumn(1, 2, 1);
 
         std::cout << "Movimiento ejecutado" << std::endl;
     }

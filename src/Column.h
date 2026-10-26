@@ -143,6 +143,19 @@ public:
         cards->setElement(c);
     }
 
+    Column copy() {
+        DLinkedList<Card>* temp = new DLinkedList<Card>();
+        
+        cards->goToStart();
+        for (int i = 0; i < cards->getSize(); i++) {
+            temp->append(cards->getElement());
+            cards->next();
+        }
+
+        return Column(temp);
+    }
+
+
     //     friend std::ostream& operator<<(std::ostream& os, Column pila) {
     //         for (int i = 0; i < pila.cards->getSize(); i++) {
     //             std::cout << pila.cards->getElement() << '\n';
