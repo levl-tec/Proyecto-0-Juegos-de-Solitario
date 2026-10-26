@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 #include <iostream>
 #include <string>
@@ -30,6 +30,10 @@ public:
 
     void setVisibility(bool faceUp) {
         this->faceUp = faceUp;
+    }
+
+    char getSuit() {
+        return rank;
     }
 
     friend std::ostream& operator<<(std::ostream& os, Card c) {

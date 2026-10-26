@@ -1,4 +1,4 @@
-#include <iostream>
+﻿#include <iostream>
 #include <windows.h>
 #include <cstdlib>
 #include "Board.h"
@@ -18,9 +18,10 @@ int pruebas()
     std::cout << "Entre a pruebas()" << std::endl;
     char* ranks = new char [4] {'S', 'C', 'H', 'D'};
     Column stockpile = Column();
-    srand(time(0));
+    srand((unsigned int)time(0));
+    List<Card>* cardSecuence = new ArrayList<Card>(13);
+
     for (int i = 0; i < 4; i++) {
-        List<Card>* cardSecuence = new ArrayList<Card>(13);
         for (int j = 1; j < 14; j++) {
             Card card = Card(ranks[i], j, 1);
             cardSecuence->append(card);
@@ -115,7 +116,7 @@ int pruebas()
 
     GolfBoard golfDescartes(mazoGolf, descarteGolf, columnasGolf);
 
-    golfDescartes.discardCard(0);
+    golfDescartes.discardCard(1);
 
     columnasGolf->goToPos(0);
 
@@ -127,7 +128,13 @@ int pruebas()
         std::cout << "ERROR: discardCard no movio correctamente" << std::endl;
     }
 
-    golfDescartes.discardCard(1);
+    try {
+        golfDescartes.discardCard(2);
+    }
+    catch (const runtime_error& e) {
+        std::cout << e.what();
+    }
+    
 
     columnasGolf->goToPos(1);
 
@@ -346,7 +353,7 @@ int pruebas()
     std::cout << "Iniciando prueba de movimiento Spider" << std::endl;
 
     try {
-        spiderPrueba.changeColumn(0, 1, 1);
+        spiderPrueba.changeColumn(1, 2, 1);
 
         std::cout << "Movimiento ejecutado" << std::endl;
     }

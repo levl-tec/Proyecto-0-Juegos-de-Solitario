@@ -45,29 +45,36 @@ public:
         return columnSlice;
     }
 
+    // Returns a NEW list with copies of the cards from index 'start' to the end
+    // of the column. It only extracts: it does not check the order of the cards
+    // and it does not modify the column. The caller must delete the returned list.
     List<Card>* getSlice(int start) {
         int size = cards->getSize();
 
         if (start < 0 || start >= size)
-            throw std::runtime_error("Invalid slice start");
+            throw std::runtime_error("Inicio de seccion (slice) invalido");
 
-        List<Card>* columnSlice = cards->slice(start, size-1);
+        return cards->slice(start, size - 1);
+    }
 
-        columnSlice->goToPos(start);
-
-        for (int i = 1; i < columnSlice->getSize(); i++) {
-            Card fCard = columnSlice->getElement();
-            cards->next();
-            Card sCard = columnSlice->getElement();
-            if (fCard.getValue() != sCard.getValue() + 1)
-                throw std::runtime_error("CARDS MUST BE IN ASCENDING ORDER");
-            }
-        return columnSlice;
+    // True if every card is exactly one value lower than the previous one
+    // (for example 9, 8, 7). A list with 0 or 1 cards counts as a run.
+    // Positions here are in the list that is passed in, which starts at 0.
+    static bool isRun(List<Card>* run) {
+        run->goToStart();
+        for (int i = 0; i < run->getSize() - 1; i++) {
+            Card first = run->getElement();
+            run->next();
+            Card second = run->getElement();
+            if (first.getValue() != second.getValue() + 1)
+                return false;
+        }
+        return true;
     }
 
     Card removeCard() {
         if (cards->getSize() == 0)
-            throw std::runtime_error("Column is empty");
+            throw std::runtime_error("La columna esta vacia");
 
         cards->goToPos(cards->getSize() - 1);
         return cards->remove();
@@ -85,29 +92,88 @@ public:
         cards->append(newCard);
     }
 
+    Card getCard(int pos) {
+        if ((pos < 0) || (pos >= getSize()))
+            throw std::runtime_error("Posicion fuera de los limites");
+        cards->goToPos(pos);
+        return cards->getElement();
+    }
+
+    void clear() {
+        cards->clear();
+    }
+
+    void fillShuffled(const char* suits, int sets) {
+        cards->clear();
+
+        List<Card>* temp = new ArrayList<Card>(13 * sets);
+
+        for (int i = 0; i < sets; i++) {
+
+            for (int j = 1; j < 14; j++) {
+                Card card = Card(suits[i], j, 0);
+                temp->append(card);
+            }
+        }
+
+        int size = temp->getSize();
+        while (size != 0) {
+            int num = rand() % temp->getSize();
+            temp->goToPos(num);
+            Card card = temp->remove();
+            addCard(card);
+            size = temp->getSize();
+        }
+
+        delete temp;
+    }
+
     void isValidColumnMove(List<Card>* newCards) {
         if (newCards->getSize() == 0)
-            throw std::runtime_error("No cards to move");
+            throw std::runtime_error("No hay cartas para mover");
 
         if (cards->getSize() == 0)
             return;
 
         newCards->goToStart();
         if (this->getLastCard().getValue() != newCards->getElement().getValue() + 1)
-            throw std::runtime_error("CARDS MUST STAY IN ASCENDING ORDER");
+            throw std::runtime_error("Debe colocar las cartas sobre una carta de valor inmediatamente mayor");
     }
 
-//     friend std::ostream& operator<<(std::ostream& os, Column pila) {
-//         for (int i = 0; i < pila.cards->getSize(); i++) {
-//             std::cout << pila.cards->getElement() << '\n';
-//             pila.cards->next();
-//         }
-//         return os;
-// <<<<<<<< HEAD:src/Column.h
-//     } //ESTO VA AL RENDERER
-// };
-// ========
-//     }
+    void flipLastCard() {
+        if (cards->getSize() == 0)
+            return;
+        cards->goToEnd();
+        cards->previous();
+        Card c = cards->getElement();
+        c.setVisibility(true);
+        cards->setElement(c);
+    }
+
+    Column copy() {
+        DLinkedList<Card>* temp = new DLinkedList<Card>();
+        
+        cards->goToStart();
+        for (int i = 0; i < cards->getSize(); i++) {
+            temp->append(cards->getElement());
+            cards->next();
+        }
+
+        return Column(temp);
+    }
+
+
+    //     friend std::ostream& operator<<(std::ostream& os, Column pila) {
+    //         for (int i = 0; i < pila.cards->getSize(); i++) {
+    //             std::cout << pila.cards->getElement() << '\n';
+    //             pila.cards->next();
+    //         }
+    //         return os;
+    // <<<<<<<< HEAD:src/Column.h
+    //     } //ESTO VA AL RENDERER
+    // };
+    // ========
+    //     }
 };
 
 // >>>>>>>> origin/main:src/PilaCartas.h

@@ -1,7 +1,8 @@
-#pragma once
+﻿#pragma once
 
 #include <iostream>
 #include <cmath>
+#include <string>
 #include "ArrayList.h"
 #include "Stack.h"
 #include "LinkedStack.h"
@@ -12,53 +13,140 @@
 class GolfBoard : public Board {
 private:
     List<Column*>* board;
-    Column stockpile;
-    Column discardpile;
-    inline static int cardsInTheBoard = 35;
+    Column stockPile;
+    Column discardPile;
+    int cardsInTheBoard = 35;
     int score = 0;
-    int round = 0;
-    inline static int globalScore = 0;
+    int round = 1;
+    int globalScore = 0;
+    bool gameOver = false; 
+    
+    void deal() {
+
+        board->goToStart();
+        while (!board->atEnd()) {
+            board->getElement()->clear();
+            board->next();
+        }
+
+        discardPile.clear();
+
+        char suits[4] = { 'S','H','D','C' };
+        stockPile.fillShuffled(suits, 4);
+
+        for (int i = 0; i < 5; i++) {
+            board->goToStart();
+            while (!board->atEnd()) {
+
+                Card c = stockPile.removeCard();
+                c.setVisibility(true);
+                board->getElement()->addCard(c);
+
+                board->next();
+            }
+        }
+
+        flipStockCard();
+        cardsInTheBoard = 35;
+    }
+
 
 public:
 
     GolfBoard(Column stockpile, Column discardpile, List<Column*>* board) {
         this->board = board;
-        this->stockpile = stockpile;
-        this->discardpile = discardpile;
+        this->stockPile = stockpile;
+        this->discardPile = discardpile;
     }
 
-    GolfBoard() {}
+    GolfBoard() {
+        board = new ArrayList<Column*>(7);
+        board->goToStart();
+        for (int i = 0; i < 7; i++) {
+            board->append(new Column());
+        }
+        deal();
+    }
+    
+    int getRound() { return round; }
+
+    int getTotalScore() { return globalScore; }
+
+    std::string getRating() {
+        int total = getTotalScore();
+        if (total <= 0) {
+            return "Perfecto";
+        }
+        else if (total <= 45) {
+            return "Regular";
+        }
+        else {
+            return "Malo";
+        }
+    }
+
+    bool isGameOver() { return gameOver; }
+
 
     void sumatory() {
         if (cardsInTheBoard == 0)
-            score -= stockpile.getSize();
+            score -= stockPile.getSize();
         else   
             score += cardsInTheBoard;
     }
 
     void discardCard(int columnPos) {
-        board->goToPos(columnPos);
+        board->goToPos(columnPos-1);
         Column* column = board->getElement();
-        if (isValidDiscard(column->getLastCard())) {
-            discardpile.addCard(column->removeCard());
-            cardsInTheBoard--;
-        }
+
+        if (column->getSize() == 0)
+            throw std::runtime_error("La columna esta vacia!");
+        
+        if (!isValidDiscard(column->getLastCard()))
+            throw std::runtime_error("La carta debe ser contigua a la del descarte");
+
+        discardPile.addCard(column->removeCard());
+        cardsInTheBoard--;
+        
     }
 
     bool isValidDiscard(Card cardToDiscard) {
         int valueCardToDiscard = cardToDiscard.getValue();
-        int valueDiscardPileCard = discardpile.getLastCard().getValue(); 
-        if (valueCardToDiscard == 1 && valueDiscardPileCard == 13 || valueCardToDiscard == 13 && valueDiscardPileCard == 1)
+        int valueDiscardPileCard = discardPile.getLastCard().getValue(); 
+        if (((valueCardToDiscard == 1) && (valueDiscardPileCard == 13)) || 
+            ((valueCardToDiscard == 13) && (valueDiscardPileCard == 1)))
             return 1;
         int difference = valueCardToDiscard - valueDiscardPileCard;
         return abs(difference) == 1;
     }
 
-    void nextRound() {
-        round++;
+    void flipStockCard() {
+        if (stockPile.getSize() == 0)
+            throw std::runtime_error("El mazo esta vacio!");
+
+        Card c = stockPile.removeCard();
+        c.setVisibility(true);
+        discardPile.addCard(c);
+    }
+
+    int nextRound() {
         sumatory();
+        int roundPoints = score;
         globalScore += score;
-        cardsInTheBoard = 35;
+        score = 0;
+        if (round < 9) {
+            round++;
+            deal();
+        }
+        else {
+            gameOver = true;
+        }
+        return roundPoints;
+    }
+
+    void abandon() {
+        globalScore += (35 * (9 - round) + cardsInTheBoard);
+        gameOver = true;
     }
 
     bool isThereAValidMove() {
@@ -66,10 +154,54 @@ public:
             return 0;
         board->goToStart();
         for (int i = 0; i < board->getSize(); i++) {
-            if(isValidDiscard(board->getElement()->getLastCard()))
+            Column* c = board->getElement();
+            if((c->getSize() > 0) && (isValidDiscard(c->getLastCard())))
                 return 1;
             board->next();
         }
         return 0;
+    }
+
+    bool isRoundWon() {
+        return (cardsInTheBoard == 0);
+    }
+
+    bool isRoundLost() {
+        if (isRoundWon())
+            return 0;
+        return (stockPile.getSize() == 0) && (!isThereAValidMove());
+    }
+
+    Column* getColumn(int pos) {
+        pos--;
+        if ((pos < 0) || (pos >= board->getSize()))
+            throw std::runtime_error("Posicion fuera de los limites");
+        board->goToPos(pos);
+        return board->getElement();
+    }
+
+    int getStockSize(){
+        return stockPile.getSize();
+    }
+
+    Card getDiscardTop() {
+        return discardPile.getLastCard();
+    }
+
+    Board* clone() {
+        GolfBoard* copy = new GolfBoard(*this);
+        copy->stockPile = stockPile.copy();
+        copy->discardPile = discardPile.copy();
+        copy->board = new ArrayList<Column*>(7);
+        
+        board->goToStart();
+        for (int i = 0; i < 7; i++) {
+            Column* c = board->getElement();
+
+            copy->board->append(new Column(c->copy()));
+            board->next();
+        }
+
+        return copy;
     }
 };
