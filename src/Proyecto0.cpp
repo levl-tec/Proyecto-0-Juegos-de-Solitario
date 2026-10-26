@@ -15,7 +15,7 @@
 
 const bool RUN_TESTS = false; 
 const bool RUN_MAIN = true;
-const bool ADVANCED_UI = false;
+const bool ADVANCED_UI = true;
 
 int pruebas();
 
