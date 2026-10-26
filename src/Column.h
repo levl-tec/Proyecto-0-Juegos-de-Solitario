@@ -52,7 +52,7 @@ public:
         int size = cards->getSize();
 
         if (start < 0 || start >= size)
-            throw std::runtime_error("Invalid slice start");
+            throw std::runtime_error("Inicio de seccion (slice) invalido");
 
         return cards->slice(start, size - 1);
     }
@@ -74,7 +74,7 @@ public:
 
     Card removeCard() {
         if (cards->getSize() == 0)
-            throw std::runtime_error("Column is empty");
+            throw std::runtime_error("La columna esta vacia");
 
         cards->goToPos(cards->getSize() - 1);
         return cards->remove();
@@ -123,14 +123,24 @@ public:
 
     void isValidColumnMove(List<Card>* newCards) {
         if (newCards->getSize() == 0)
-            throw std::runtime_error("No cards to move");
+            throw std::runtime_error("No hay cartas para mover");
 
         if (cards->getSize() == 0)
             return;
 
         newCards->goToStart();
         if (this->getLastCard().getValue() != newCards->getElement().getValue() + 1)
-            throw std::runtime_error("CARDS MUST STAY IN ASCENDING ORDER");
+            throw std::runtime_error("Debe colocar las Cartas sobre una carta de valor inmediatamente mayor");
+    }
+
+    void flipLastCard() {
+        if (cards->getSize() == 0)
+            return;
+        cards->goToEnd();
+        cards->previous();
+        Card c = cards->getElement();
+        c.setVisibility(true);
+        cards->setElement(c);
     }
 
     //     friend std::ostream& operator<<(std::ostream& os, Column pila) {
