@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 #include "GameState.h"
 #include "Stack.h"
@@ -11,6 +11,13 @@ private:
     Stack<GameState>* past;
     GameState actual;
 
+    void emptyStack(Stack<GameState>* s) {
+        while (!s->isEmpty()) {
+            GameState st = s->pop();
+            delete st.getBoard();
+        }
+    }
+
 public:
 
     Application(GameState actual) {
@@ -20,23 +27,33 @@ public:
     }
 
     void changeState(GameState newState) {
-        if (future->getSize() != 0)
-            future->clear();
+        emptyStack(future);
+        
         past->push(actual);
         this->actual = newState;
     }
 
     void goToPast() {
         if (past->getSize() == 0)
-            throw std::runtime_error("THERE'S NO PAST");
+            throw std::runtime_error("No hay jugadas para des-hacer");
         future->push(actual);
         this->actual = past->pop();
     }
 
     void goToFuture() {
         if (future->getSize() == 0)
-            throw std::runtime_error("THERE'S NO FUTURE");
+            throw std::runtime_error("No hay jugadas para re-hacer");
         past->push(actual);
         this->actual = future->pop();
     }
+
+    Board* getCurrent() {
+        return actual.getBoard();
+    }
+
+    void clearHistory() {
+        emptyStack(future);
+        emptyStack(past);
+    }
+
 };

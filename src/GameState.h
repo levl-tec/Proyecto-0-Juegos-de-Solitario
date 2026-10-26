@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 #include <iostream>
 #include "Board.h"
@@ -13,5 +13,14 @@ public:
 
     GameState(Board* board) {
         this->board = board;
+    }
+
+    Board* getBoard() {
+        return board;
+    }
+
+    friend std::ostream& operator<<(std::ostream& os, GameState c) {
+        os << "[Estado]";
+        return os;
     }
 };
