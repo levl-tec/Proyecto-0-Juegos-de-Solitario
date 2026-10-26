@@ -11,3 +11,8 @@ Estudiantes:
 - Maximiliano Carmiol
 - Luis Esteban Vasquez Leiton
 
+## Descripción
+Juegos de solitario Golf y Spider en consola, hechos en C++.
+
+## Cómo ejecutar
+Abrir `src/Proyecto0.slnx` en Visual Studio y ejecutar.
