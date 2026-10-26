@@ -92,6 +92,13 @@ public:
         cards->append(newCard);
     }
 
+    Card getCard(int pos) {
+        if ((pos < 0) || (pos >= getSize()))
+            throw std::runtime_error("Posicion fuera de los limites");
+        cards->goToPos(pos);
+        return cards->getElement();
+    }
+
     void clear() {
         cards->clear();
     }

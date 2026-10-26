@@ -194,13 +194,21 @@ public:
         return (stockpile.getSize() / 10);
     }
 
+    Column* getColumn(int pos) {
+        pos--;
+        if ((pos < 0) || (pos >= board->getSize()))
+            throw std::runtime_error("Posicion fuera de los limites");
+        board->goToPos(pos);
+        return board->getElement();
+    }
+
     Board* clone() {
         SpiderBoard* copy = new SpiderBoard(*this);
         copy->stockpile = stockpile.copy();
         
         copy->board = new ArrayList<Column*>(10);
         board->goToStart();
-        for (int i = 0; i < board->getSize(); i++) {
+        for (int i = 0; i < 10; i++) {
             Column* c = board->getElement();
 
             copy->board->append(new Column(c->copy()));
@@ -209,7 +217,7 @@ public:
 
         copy->foundations = new ArrayList<Column*>(8);
         foundations->goToStart();
-        for (int i = 0; i < foundations->getSize(); i++) {
+        for (int i = 0; i < 8; i++) {
             Column* c = foundations->getElement();
 
             copy->foundations->append(new Column(c->copy()));

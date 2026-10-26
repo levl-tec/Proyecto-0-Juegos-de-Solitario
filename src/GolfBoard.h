@@ -172,6 +172,22 @@ public:
         return (stockPile.getSize() == 0) && (!isThereAValidMove());
     }
 
+    Column* getColumn(int pos) {
+        pos--;
+        if ((pos < 0) || (pos >= board->getSize()))
+            throw std::runtime_error("Posicion fuera de los limites");
+        board->goToPos(pos);
+        return board->getElement();
+    }
+
+    int getStockSize(){
+        return stockPile.getSize();
+    }
+
+    Card getDiscardTop() {
+        return discardPile.getLastCard();
+    }
+
     Board* clone() {
         GolfBoard* copy = new GolfBoard(*this);
         copy->stockPile = stockPile.copy();
@@ -179,7 +195,7 @@ public:
         copy->board = new ArrayList<Column*>(7);
         
         board->goToStart();
-        for (int i = 0; i < board->getSize(); i++) {
+        for (int i = 0; i < 7; i++) {
             Column* c = board->getElement();
 
             copy->board->append(new Column(c->copy()));
