@@ -27,6 +27,9 @@
     <ClCompile Include="Proyecto0.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Pruebas.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Includes.h">
@@ -56,12 +59,6 @@
     <ClInclude Include="ArrayList.h">
       <Filter>Header Files\DataStructures</Filter>
     </ClInclude>
-    <ClInclude Include="PilaCartas.h">
-      <Filter>Header Files\GameEngine</Filter>
-    </ClInclude>
-    <ClInclude Include="Ronda.h">
-      <Filter>Header Files\GameEngine</Filter>
-    </ClInclude>
     <ClInclude Include="Renderer.h">
       <Filter>Header Files\UI</Filter>
     </ClInclude>
@@ -84,6 +81,9 @@
       <Filter>Header Files\GameEngine</Filter>
     </ClInclude>
     <ClInclude Include="SpiderBoard.h">
+      <Filter>Header Files\GameEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="GameState.h">
       <Filter>Header Files\GameEngine</Filter>
     </ClInclude>
   </ItemGroup>
