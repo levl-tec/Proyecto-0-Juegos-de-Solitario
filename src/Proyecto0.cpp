@@ -2,6 +2,7 @@
 #include <windows.h>
 #include <conio.h>
 #include <cstdio>
+#include <ctime>
 #include <string>
 #include "Column.h"
 #include "Card.h"
@@ -152,6 +153,7 @@ int pruebas();
 
 int main()
 {
+    srand(time(0));
     std::cout << "Iniciando pruebas...\n";
     // SetConsoleOutputCP(CP_UTF8);
     // SetConsoleCP(CP_UTF8);

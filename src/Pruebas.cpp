@@ -19,8 +19,9 @@ int pruebas()
     char* ranks = new char [4] {'S', 'C', 'H', 'D'};
     Column stockpile = Column();
     srand(time(0));
+    List<Card>* cardSecuence = new ArrayList<Card>(13);
+
     for (int i = 0; i < 4; i++) {
-        List<Card>* cardSecuence = new ArrayList<Card>(13);
         for (int j = 1; j < 14; j++) {
             Card card = Card(ranks[i], j, 1);
             cardSecuence->append(card);

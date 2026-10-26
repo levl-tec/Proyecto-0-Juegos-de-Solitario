@@ -92,6 +92,35 @@ public:
         cards->append(newCard);
     }
 
+    void clear() {
+        cards->clear();
+    }
+
+    void fillShuffled(const char* suits, int sets) {
+        cards->clear();
+
+        List<Card>* temp = new ArrayList<Card>(13 * sets);
+
+        for (int i = 0; i < sets; i++) {
+
+            for (int j = 1; j < 14; j++) {
+                Card card = Card(suits[i], j, 0);
+                temp->append(card);
+            }
+        }
+
+        int size = temp->getSize();
+        while (size != 0) {
+            int num = rand() % temp->getSize();
+            temp->goToPos(num);
+            Card card = temp->remove();
+            addCard(card);
+            size = temp->getSize();
+        }
+
+        delete temp;
+    }
+
     void isValidColumnMove(List<Card>* newCards) {
         if (newCards->getSize() == 0)
             throw std::runtime_error("No cards to move");

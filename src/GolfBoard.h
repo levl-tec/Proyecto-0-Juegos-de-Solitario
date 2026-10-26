@@ -18,6 +18,36 @@ private:
     int score = 0;
     int round = 1;
     int globalScore = 0;
+    
+    void deal() {
+
+        board->goToStart();
+        while (!board->atEnd()) {
+            board->getElement()->clear();
+            board->next();
+        }
+
+        discardPile.clear();
+
+        char suits[4] = { 'S','H','D','C' };
+        stockPile.fillShuffled(suits, 4);
+
+        for (int i = 0; i < 5; i++) {
+            board->goToStart();
+            while (!board->atEnd()) {
+
+                Card c = stockPile.removeCard();
+                c.setVisibility(true);
+                board->getElement()->addCard(c);
+
+                board->next();
+            }
+        }
+
+        flipStockCard();
+        cardsInTheBoard = 35;
+    }
+
 
 public:
 
@@ -27,7 +57,14 @@ public:
         this->discardPile = discardpile;
     }
 
-    GolfBoard() {}
+    GolfBoard() {
+        board = new ArrayList<Column*>(7);
+        board->goToStart();
+        for (int i = 0; i < 7; i++) {
+            board->append(new Column());
+        }
+        deal();
+    }
 
     void sumatory() {
         if (cardsInTheBoard == 0)
@@ -75,7 +112,7 @@ public:
         sumatory();
         globalScore += score;
         score = 0;
-        cardsInTheBoard = 35;
+        deal();
     }
 
     bool isThereAValidMove() {
